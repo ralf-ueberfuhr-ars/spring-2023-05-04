@@ -1,5 +1,24 @@
 # Getting Started
 
+## First Steps
+
+### Launch the application
+
+Run the `CustomerServiceApplication` class directly or use Maven:
+
+```bash
+mvn spring-boot:run
+```
+
+or build the JAR and run
+
+```bash
+mvn package
+java -jar target/customer-service-spring-0.0.1-SNAPSHOT.jar
+```
+
+## Further
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
