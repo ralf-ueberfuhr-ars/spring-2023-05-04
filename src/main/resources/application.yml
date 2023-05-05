@@ -1,3 +1,12 @@
 server:
   port: 8082
-
+springdoc:
+  paths-to-match:
+    - /api/**
+  swagger-ui:
+    urls:
+      - name: Manually Configured API
+        url: /openapi.yml
+      - name: Code-Generated API
+        url: /v3/api-docs
+    urls-primary-name: Manually Configured API
