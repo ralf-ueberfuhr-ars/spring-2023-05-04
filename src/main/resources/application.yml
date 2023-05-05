@@ -13,3 +13,14 @@ springdoc:
 hello:
   default-name: Du lieber Mensch
   message: Halloechen, {}!
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        #health,info,beans,metrics,startup
+      base-path: /health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
