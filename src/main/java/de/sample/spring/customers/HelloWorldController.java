@@ -1,5 +1,6 @@
 package de.sample.spring.customers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,19 +8,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import static java.util.Objects.requireNonNullElseGet;
+
 @Controller
 @RequestMapping("/hello")
+@RequiredArgsConstructor
 public class HelloWorldController {
+
+    private final HelloConfigurationProperties config;
 
     @GetMapping(
       produces = MediaType.TEXT_PLAIN_VALUE
     )
     @ResponseBody
     public String sayHello(
-      @RequestParam(value = "name", defaultValue = "World")
+      @RequestParam(value = "name", required = false)
       String name
     ) {
-        return "<h1>Hello " + name + "!</h1>Welcome!";
+        return config.getMessage()
+          .replace("{}", requireNonNullElseGet(name, config::getDefaultName));
     }
 
 }
