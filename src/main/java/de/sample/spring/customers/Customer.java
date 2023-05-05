@@ -2,6 +2,7 @@ package de.sample.spring.customers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class Customer {
       description = "The simple name.",
       example = "Tom Mayer"
     )
+    @Size(min = 3)
     private String name;
 
     @Schema(
