@@ -1,5 +1,9 @@
 package de.sample.spring.customers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/customers")
+@Tag(name="customers")
 public class CustomerController {
 
     // TODO replace later
@@ -38,6 +43,24 @@ public class CustomerController {
     }
 
     @PostMapping
+    /*
+     * Beschreibungen
+     * Statuscode 201, Location Header
+     * Statuscode 400
+     */
+    @Operation(summary = "Create a customer")
+    @ApiResponse(
+      responseCode = "201",
+      description = "Customer was created successfully",
+      headers = @Header(
+        name = "Location",
+        description = "URL to the newly created customer"
+      )
+    )
+    @ApiResponse(
+      responseCode = "400",
+      description = "The customer is invalid."
+    )
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
         var newId = UUID.randomUUID();
         newCustomer.setUuid(newId);
