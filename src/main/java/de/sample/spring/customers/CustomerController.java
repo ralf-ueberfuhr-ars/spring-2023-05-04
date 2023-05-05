@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("api/v1/customers")
 public class CustomerController {
@@ -39,8 +42,10 @@ public class CustomerController {
         var newId = UUID.randomUUID();
         newCustomer.setUuid(newId);
         customers.put(newId, newCustomer);
-        // TODO dynamisch ermitteln?
-        URI location = URI.create("http://localhost:8082/api/v1/customers/" + newId);
+        URI location = linkTo(
+          methodOn(CustomerController.class).findCustomer(newId)
+        ).toUri();
+        //URI location = URI.create("http://localhost:8082/api/v1/customers/" + newId);
         return ResponseEntity.created(location).body(newCustomer);
     }
 
