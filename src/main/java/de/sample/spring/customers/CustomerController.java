@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -96,7 +97,11 @@ public class CustomerController {
       description = "The customer is invalid.",
       content = @Content(schema = @Schema)
     )
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
+    public ResponseEntity<Customer> createCustomer(
+      @Valid
+      @RequestBody
+      Customer newCustomer
+    ) {
         var newId = UUID.randomUUID();
         newCustomer.setUuid(newId);
         customers.put(newId, newCustomer);
