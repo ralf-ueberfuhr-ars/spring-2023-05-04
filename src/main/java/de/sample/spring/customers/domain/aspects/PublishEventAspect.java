@@ -43,15 +43,14 @@ public class PublishEventAspect {
             final var method = ms.getMethod();
             final var annotation = annotationFn.apply(method);
             final var eventClass = annotation.value();
+            // TODO validate if the parameters match the only constructor of the event class
             final var eventConstructor = parameters.length == 0
               ? eventClass.getConstructor()
               : eventClass.getDeclaredConstructors()[0];
-            try {
-                return jp.proceed();
-            } finally {
-                final var event = eventConstructor.newInstance(parameters);
-                eventPublisher.publishEvent(event);
-            }
+            final var result = jp.proceed();
+            final var event = eventConstructor.newInstance(parameters);
+            eventPublisher.publishEvent(event);
+            return result;
         } else {
             return jp.proceed();
         }
