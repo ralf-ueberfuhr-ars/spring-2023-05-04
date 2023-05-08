@@ -11,10 +11,14 @@ accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Julia Miller",
+  "name": "J",
   "birthdate": "2020-04-04"
 }
 
 ###
 
 DELETE http://localhost:8082/api/v1/customers/2e0c2973-ed17-4cfc-a3ec-ed5caf67429f
+
+###
+
+GET http://localhost:8082/api/v1/customers/2e0c2973-ed17-4cfc-a3ec-ed5caf67429f

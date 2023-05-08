@@ -1,4 +1,4 @@
-package de.sample.spring.customers;
+package de.sample.spring.customers.boundary.rest;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

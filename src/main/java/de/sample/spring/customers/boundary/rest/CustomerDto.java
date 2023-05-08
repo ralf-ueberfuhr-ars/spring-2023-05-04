@@ -1,4 +1,4 @@
-package de.sample.spring.customers;
+package de.sample.spring.customers.boundary.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,7 +13,7 @@ import java.util.UUID;
   name="Customer",
   description = "Information about the customer."
 )
-public class Customer {
+public class CustomerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Schema(
