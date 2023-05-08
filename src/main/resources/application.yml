@@ -1,5 +1,3 @@
-server:
-  port: 8082
 springdoc:
   paths-to-match:
     - /api/**
@@ -10,6 +8,7 @@ springdoc:
       - name: Code-Generated API
         url: /v3/api-docs
     urls-primary-name: Manually Configured API
+    enabled: false
 hello:
   default-name: Du lieber Mensch
   message: Halloechen, {}!

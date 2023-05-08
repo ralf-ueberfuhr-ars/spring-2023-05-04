@@ -1,6 +1,7 @@
 package de.sample.spring.customers.boundary;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import static java.util.Objects.requireNonNullElseGet;
 @Controller
 @RequestMapping("/hello")
 @RequiredArgsConstructor
+@Profile("dev")
 public class HelloWorldController {
 
     private final HelloConfigurationProperties config;
