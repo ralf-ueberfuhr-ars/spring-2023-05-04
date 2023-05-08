@@ -71,7 +71,12 @@ public class CustomerController {
       )
       UUID id
     ) {
-        return customers.get(id);
+        final var result =  customers.get(id);
+        if(result != null) {
+            return result;
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     @PostMapping(
