@@ -3,6 +3,7 @@ package de.sample.spring.customers.domain;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerSink sink;
+    private final ApplicationEventPublisher eventPublisher;
 
     public Collection<Customer> findAll() {
         return sink.findAll();
@@ -27,6 +29,7 @@ public class CustomerService {
 
     public void create(@Valid Customer customer) {
         sink.create(customer);
+        eventPublisher.publishEvent(new NewCustomerEvent(customer));
     }
 
     public void delete(UUID id) {
