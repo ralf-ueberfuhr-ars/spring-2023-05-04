@@ -1,5 +1,6 @@
 package de.sample.spring.customers.boundary.rest;
 
+import de.sample.spring.customers.boundary.NotFoundException;
 import de.sample.spring.customers.domain.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -69,7 +69,7 @@ public class CustomerController {
       description = "Customer could not be found.",
       content = @Content(schema = @Schema)
     )
-    public Optional<CustomerDto> findCustomer(
+    public CustomerDto findCustomer(
       @PathVariable("id")
       @Parameter(
         description = "The unique identifier",
@@ -78,7 +78,8 @@ public class CustomerController {
       UUID id
     ) {
         return service.findById(id)
-          .map(mapper::map);
+          .map(mapper::map)
+          .orElseThrow(NotFoundException::new);
     }
 
     @PostMapping(
