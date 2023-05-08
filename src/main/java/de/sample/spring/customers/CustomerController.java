@@ -24,6 +24,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -63,7 +64,7 @@ public class CustomerController {
       description = "Customer could not be found.",
       content = @Content(schema = @Schema)
     )
-    public Customer findCustomer(
+    public Optional<Customer> findCustomer(
       @PathVariable("id")
       @Parameter(
         description = "The unique identifier",
@@ -71,12 +72,7 @@ public class CustomerController {
       )
       UUID id
     ) {
-        final var result =  customers.get(id);
-        if(result != null) {
-            return result;
-        } else {
-            throw new NotFoundException();
-        }
+        return Optional.ofNullable(customers.get(id));
     }
 
     @PostMapping(
