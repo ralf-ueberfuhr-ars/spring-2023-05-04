@@ -1,6 +1,7 @@
-package de.sample.spring.customers.domain;
+package de.sample.spring.customers.config;
 
-import org.springframework.stereotype.Component;
+import de.sample.spring.customers.domain.Customer;
+import de.sample.spring.customers.domain.CustomerSink;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,8 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
-public class InMemoryCustomerSink implements CustomerSink {
+class InMemoryCustomerSink implements CustomerSink {
 
     private final Map<UUID, Customer> customers = new HashMap<>();
 
