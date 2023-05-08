@@ -1,4 +1,4 @@
-package de.sample.spring.customers;
+package de.sample.spring.customers.boundary;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

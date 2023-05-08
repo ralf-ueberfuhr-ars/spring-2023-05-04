@@ -1,4 +1,4 @@
-package de.sample.spring.customers;
+package de.sample.spring.customers.boundary;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

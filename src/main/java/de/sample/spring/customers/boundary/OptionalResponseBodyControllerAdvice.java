@@ -1,4 +1,4 @@
-package de.sample.spring.customers;
+package de.sample.spring.customers.boundary;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

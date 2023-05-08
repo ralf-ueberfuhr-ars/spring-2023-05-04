@@ -1,5 +1,6 @@
-package de.sample.spring.customers;
+package de.sample.spring.customers.boundary.rest;
 
+import de.sample.spring.customers.domain.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -33,10 +34,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("api/v1/customers")
 @Tag(name = "customers")
+@RequiredArgsConstructor
 public class CustomerController {
 
-    // TODO replace later
-    private final Map<UUID, Customer> customers = new HashMap<>();
+    private final CustomerService service;
+    private final CustomerDtoMapper mapper;
 
     @GetMapping(
       produces = MediaType.APPLICATION_JSON_VALUE
@@ -46,8 +48,11 @@ public class CustomerController {
       responseCode = "200",
       description = "Customers were read successfully."
     )
-    public Collection<Customer> findAllCustomers() {
-        return customers.values();
+    public Collection<CustomerDto> findAllCustomers() {
+        return service.findAll()
+          .stream()
+          .map(mapper::map)
+          .collect(Collectors.toList());
     }
 
     @GetMapping(
@@ -64,7 +69,7 @@ public class CustomerController {
       description = "Customer could not be found.",
       content = @Content(schema = @Schema)
     )
-    public Optional<Customer> findCustomer(
+    public Optional<CustomerDto> findCustomer(
       @PathVariable("id")
       @Parameter(
         description = "The unique identifier",
@@ -72,7 +77,8 @@ public class CustomerController {
       )
       UUID id
     ) {
-        return Optional.ofNullable(customers.get(id));
+        return service.findById(id)
+          .map(mapper::map);
     }
 
     @PostMapping(
@@ -98,19 +104,21 @@ public class CustomerController {
       description = "The customer is invalid.",
       content = @Content(schema = @Schema)
     )
-    public ResponseEntity<Customer> createCustomer(
+    public ResponseEntity<CustomerDto> createCustomer(
       @Valid
       @RequestBody
-      Customer newCustomer
+      CustomerDto newCustomerDto
     ) {
-        var newId = UUID.randomUUID();
-        newCustomer.setUuid(newId);
-        customers.put(newId, newCustomer);
+        var customer = mapper.map(newCustomerDto);
+        service.create(customer);
+        var newId = customer.getUuid();
+        var responseDto = mapper.map(customer);
+        //customers.put(newId, newCustomer);
         URI location = linkTo(
           methodOn(CustomerController.class).findCustomer(newId)
         ).toUri();
         //URI location = URI.create("http://localhost:8082/api/v1/customers/" + newId);
-        return ResponseEntity.created(location).body(newCustomer);
+        return ResponseEntity.created(location).body(responseDto);
     }
 
     @DeleteMapping("/{id}")
@@ -132,7 +140,7 @@ public class CustomerController {
       )
       UUID id
     ) {
-        customers.remove(id);
+        service.delete(id);
     }
 
 }
