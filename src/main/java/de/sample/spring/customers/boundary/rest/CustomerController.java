@@ -141,6 +141,7 @@ public class CustomerController {
       )
       UUID id
     ) {
+        // TODO 404er?
         service.delete(id);
     }
 
