@@ -42,8 +42,12 @@ public class DatabaseCustomerSink implements CustomerSink {
     }
 
     @Override
-    public void delete(UUID id) {
-        // repo.existsById(id)
-        repo.deleteById(id);
+    public boolean delete(UUID id) {
+        if(repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

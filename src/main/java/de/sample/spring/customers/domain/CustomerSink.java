@@ -13,6 +13,6 @@ public interface CustomerSink {
     // Übergabe ohne ID, nach Aufruf ID enthalten
     void create(Customer customer);
 
-    void delete(UUID id);
+    boolean delete(UUID id); // return true, if the id existed before
 
 }
