@@ -31,7 +31,7 @@ class InMemoryCustomerSink implements CustomerSink {
     }
 
     @Override
-    public void delete(UUID id) {
-        customers.remove(id);
+    public boolean delete(UUID id) {
+        return null != customers.remove(id);
     }
 }

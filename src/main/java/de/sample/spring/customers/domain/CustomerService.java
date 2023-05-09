@@ -31,7 +31,7 @@ public class CustomerService {
         sink.create(customer);
     }
 
-    public void delete(UUID id) {
-        sink.delete(id);
+    public boolean delete(UUID id) {
+        return sink.delete(id);
     }
 }
